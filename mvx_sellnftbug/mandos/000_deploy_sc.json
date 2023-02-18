@@ -1,0 +1,22 @@
+{
+    "steps": [
+        {
+            "step": "scDeploy",
+            "txId": "1",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../output/sellnftbug.wasm",
+                "arguments": [],
+                "gasLimit": "30,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

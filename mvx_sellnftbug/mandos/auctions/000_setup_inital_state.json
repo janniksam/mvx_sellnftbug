@@ -1,0 +1,84 @@
+{
+    "steps": [
+        {
+            "step": "setState",
+            "accounts": {
+                "address:owner": {
+                    "nonce": "1",
+                    "balance": "5"
+                },
+                "address:donator": {
+                    "nonce": "2",
+                    "balance": "10000000000000000000"
+                },
+                "address:anotheruser": {
+                    "nonce": "3",
+                    "balance": "300"
+                },
+                "address:auctioncreator": {
+                    "nonce": "4",
+                    "balance": "10000000000000000000",
+                    "esdt": {
+                        "str:MYSFT-123456": {
+                            "instances": [
+                                {
+                                    "nonce": "69",
+                                    "balance": "2",
+                                    "creator": "address:auctioncreator",
+                                    "royalties": "1000",
+                                    "hash": "keccak256:str:nft_hash",
+                                    "uri": [
+                                        "str:www.something.com/funny.jpeg"
+                                    ],
+                                    "attributes": "str:my_attributes"
+                                }
+                            ]
+                        },
+                        "str:ANOTHERNFT-123456": {
+                            "instances": [
+                                {
+                                    "nonce": "70",
+                                    "balance": "1",
+                                    "creator": "address:donator",
+                                    "royalties": "10000",
+                                    "hash": "keccak256:str:nft_hash",
+                                    "uri": [
+                                        "str:www.something.com/funny.jpeg"
+                                    ],
+                                    "attributes": "str:my_attributes"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "newAddresses": [
+                {
+                    "creatorAddress": "address:owner",
+                    "creatorNonce": "1",
+                    "newAddress": "sc:caa_sc"
+                }
+            ],
+            "currentBlockInfo": {
+                "blockTimestamp": "100"
+            }
+        },
+        {
+            "step": "scDeploy",
+            "tx": {
+                "from": "address:owner",
+                "contractCode": "file:../../output/sellnftbug.wasm",
+                "arguments": [],
+                "gasLimit": "30,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}

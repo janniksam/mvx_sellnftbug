@@ -1,0 +1,13 @@
+[package]
+name = "sellnftbug"
+version = "0.0.0"
+authors = [ "you",]
+edition = "2018"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies.multiversx-sc]
+version = "0.39.5"
+features = ["esdt-token-payment-legacy-decode",]

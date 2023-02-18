@@ -1,0 +1,45 @@
+{
+    "name": "auction claim successfully claims your token",
+    "gasSchedule": "v3",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "000_setup_inital_state.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "001_create_an_auction.json"
+        },
+        {
+            "step": "externalSteps",
+            "path": "002_place_a_bid.json"
+        },
+        {
+            "step": "setState",
+            "currentBlockInfo": {
+                "blockTimestamp": "251"
+            }
+        },
+        {
+            "step": "scCall",
+            "tx": {
+                "from": "address:donator",
+                "to": "sc:caa_sc",
+                "function": "auctionClaim",
+                "value": "",
+                "arguments": [
+                    "u64:1"
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}
