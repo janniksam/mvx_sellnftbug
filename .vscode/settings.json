@@ -5,9 +5,8 @@
         "RUSTUP_HOME": "${env:HOME}/multiversx-sdk/vendor-rust",
         "CARGO_HOME": "${env:HOME}/multiversx-sdk/vendor-rust"
     },
-    "terminal.integrated.env.osx": {
-        "PATH": "${env:HOME}/multiversx-sdk/vendor-rust/bin:${env:HOME}/multiversx-sdk/mxpy-venv/bin:${env:HOME}/multiversx-sdk/vmtools:${env:HOME}/multiversx-sdk/nodejs/latest/bin:${env:PATH}",
-        "VIRTUAL_ENV": "${env:HOME}/multiversx-sdk/mxpy-venv",
+    "rust-analyzer.server.extraEnv": {
+        "PATH": "${env:HOME}/multiversx-sdk:${env:HOME}/multiversx-sdk/vendor-rust/bin:${env:HOME}/multiversx-sdk/vmtools:${env:PATH}",
         "RUSTUP_HOME": "${env:HOME}/multiversx-sdk/vendor-rust",
         "CARGO_HOME": "${env:HOME}/multiversx-sdk/vendor-rust"
     },

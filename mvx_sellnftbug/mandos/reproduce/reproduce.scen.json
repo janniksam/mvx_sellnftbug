@@ -1,0 +1,28 @@
+{
+    "name": "reproduce",
+    "gasSchedule": "v3",
+    "steps": [
+        {
+            "step": "externalSteps",
+            "path": "000_setup_inital_state.json"
+        },
+        {
+            "step": "scCall",
+            "tx": {
+                "from": "address:auctioncreator",
+                "to": "sc:caa_sc",
+                "function": "reproduce",
+                "egldValue": "1000",
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}
