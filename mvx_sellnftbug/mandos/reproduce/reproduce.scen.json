@@ -9,8 +9,31 @@
         {
             "step": "scCall",
             "tx": {
-                "from": "address:auctioncreator",
-                "to": "sc:caa_sc",
+                "from": "address:owner",
+                "to": "sc:calledSide",
+                "function": "depositEsdt",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "str:USDC-123456",
+                        "value": "50"
+                    }
+                ],
+                "gasLimit": "50,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [],
+                "status": "",
+                "logs": [],
+                "gas": "*",
+                "refund": "*"
+            }
+        },
+        {
+            "step": "scCall",
+            "tx": {
+                "from": "address:owner",
+                "to": "sc:callerSide",
                 "function": "reproduce",
                 "egldValue": "1000",
                 "gasLimit": "50,000,000",

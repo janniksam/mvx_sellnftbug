@@ -5,9 +5,9 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Endpoints:                            2
-// Async Callback (empty):               1
-// Total number of exported functions:   4
+// Endpoints:                            5
+// Async Callback:                       1
+// Total number of exported functions:   7
 
 #![no_std]
 #![feature(alloc_error_handler, lang_items)]
@@ -18,9 +18,11 @@ multiversx_sc_wasm_adapter::panic_handler!();
 multiversx_sc_wasm_adapter::endpoints! {
     sellnftbug
     (
+        get_destination_contract_address
         reproduce
-        verify_balance
+        get_payment
+        depositEsdt
+        foo
+        callBack
     )
 }
-
-multiversx_sc_wasm_adapter::empty_callback! {}

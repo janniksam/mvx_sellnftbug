@@ -2,31 +2,90 @@
 
 multiversx_sc::imports!();
 
-// A contract that manages and fulfills limit orders for users
+mod proxy;
+
 #[multiversx_sc::contract]
 pub trait SellnftbugSC: ContractBase {
+    #[view(get_destination_contract_address)]
+    #[storage_mapper("destination_contract_address")]
+    fn destination_contract_address(&self) -> SingleValueMapper<ManagedAddress>;
+
     #[init]
-    fn init(&self) {}
+    fn init(&self, address: ManagedAddress) {
+        self.destination_contract_address().set(address);
+    }
 
-    /*
-     * create a new auction
-     */
+    //
+    //
+    //
+    //
+    //
+    // the calling side:
+    //
+    //
+    //
+    //
+    //
+
     #[endpoint(reproduce)]
-    #[payable("*")]
+    #[payable("EGLD")]
     fn reproduce(&self) {
-        self.verify_balance();
-        self.send().direct_egld(
+        let egld_amount = self.call_value().egld_value();
+
+        self.foo_proxy(self.destination_contract_address().get())
+            .foo()
+            .with_egld_transfer(egld_amount)
+            .with_gas_limit(self.blockchain().get_gas_left() - 10_000_000)
+            .async_call()
+            .with_callback(self.callbacks().foo_callback())
+            .call_and_exit();
+    }
+
+    #[callback]
+    fn foo_callback(&self, #[call_result] result: ManagedAsyncCallResult<()>) {
+        match result {
+            ManagedAsyncCallResult::Ok(_value) => {
+                // fails
+                let _test = self.call_value().single_esdt();
+            }
+            ManagedAsyncCallResult::Err(_err) => {}
+        }
+    }
+
+    //
+    //
+    //
+    //
+    //
+    // the called side:
+    //
+    //
+    //
+    //
+    //
+
+    #[view(get_payment)]
+    #[storage_mapper("payment")]
+    fn payment(&self) -> SingleValueMapper<EsdtTokenPayment>;
+
+    #[endpoint(depositEsdt)]
+    #[payable("*")]
+    fn deposit_esdt(&self) {
+        self.payment().set(self.call_value().single_esdt());
+    }
+
+    #[endpoint(foo)]
+    #[payable("EGLD")]
+    fn foo(&self) {
+        let payment = self.payment().get();
+        self.send().direct_esdt(
             &self.blockchain().get_caller(),
-            &self.call_value().egld_value(),
-        )
+            &payment.token_identifier,
+            payment.token_nonce,
+            &payment.amount,
+        );
     }
 
-    #[view(verify_balance)]
-    fn verify_balance(&self) {
-        // does NOT work
-        let _balance_should_have = self.call_value().egld_value() + BigUint::from(1u64);
-
-        // works
-        // let _balance_should_have = BigUint::from(1u64) + self.call_value().egld_value();
-    }
+    #[proxy]
+    fn foo_proxy(&self, sc_address: ManagedAddress) -> crate::proxy::Proxy<Self::Api>;
 }
